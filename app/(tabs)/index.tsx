@@ -42,15 +42,15 @@ export default function Index() {
               <FlatList
                 data={movies}
                 renderItem={({ item }) => (
-                  <View className="mb-5">
+                  <View className="mb-5 pr-2 flex-1">
                     <MovieCard {...item} />
                   </View>
                 )}
                 keyExtractor={(item) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
                 numColumns={2}
-                columnWrapperStyle={{ justifyContent: "space-between", marginBottom: 15 }}
-                className="mt-2 pb-32"
+                columnWrapperStyle={{ gap:10 , justifyContent: "space-between", marginBottom: 5 }}
+                className="mt-2 pb-10"
                 scrollEnabled={false}
               />
             </>
