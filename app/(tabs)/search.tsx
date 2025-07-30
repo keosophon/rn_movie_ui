@@ -4,15 +4,30 @@ import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
 import useFetch from "@/services/useFetch";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 const search = () => {
+  const [searchTerm, setSearchTerm] = useState("");
   const {
     data: movies,
     loading: moviesLoading,
     error: moviesError,
-  } = useFetch(() => fetchMovies({ query: "" }));
+    refetch,
+    reset,
+  } = useFetch(() => fetchMovies({ query: searchTerm }), false);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(async () => {
+      if (searchTerm.trim()) {
+        await refetch();
+      } else {
+        reset();
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
 
   return (
     <View className="flex-1 bg-primary">
@@ -44,7 +59,11 @@ const search = () => {
               <Image source={icons.logo} className="w-12 h-10" />
             </View>
             <View className="flex-1 mt-5">
-              <SearchBar placeholder="search for a movie" onPress={() => {}} />
+              <SearchBar
+                placeholder="search for a movie"
+                value={searchTerm}
+                onChangeText={(text: string) => setSearchTerm(text)}
+              />
             </View>
             {moviesLoading && (
               <ActivityIndicator size="large" className="color-white my-5" />
@@ -56,13 +75,24 @@ const search = () => {
             )}
             {!moviesLoading &&
               !moviesError &&
-              "SEARCHT TERM".trim() &&
+              searchTerm.trim() &&
               movies?.length > 0 && (
                 <Text className="text-white font-semibold text-lg mb-5">
-                  Search results for: SEARCH TERM
+                  Search results for: {searchTerm}
                 </Text>
               )}
           </>
+        }
+        ListEmptyComponent={
+          !moviesLoading && !moviesError ? (
+            <View className="flex-1 items-center justify-center">
+              <Text className="text-white text-center mt-5">
+                {searchTerm.trim()
+                  ? "No Movies Found"
+                  : "Search for a movie"}
+              </Text>
+            </View>
+          ) : null
         }
       />
     </View>
