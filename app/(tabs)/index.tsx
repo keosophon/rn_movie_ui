@@ -50,7 +50,7 @@ export default function Index() {
                 showsVerticalScrollIndicator={false}
                 numColumns={2}
                 columnWrapperStyle={{ gap:10 , justifyContent: "space-between", marginBottom: 5 }}
-                className="mt-2 pb-10"
+                className="mt-2 pb-20"
                 scrollEnabled={false}
               />
             </>
