@@ -38,7 +38,7 @@ useEffect(() => {
   ) {
     updateSearchCount(searchTerm, movies[0]);
   }
-}, [movies, searchTerm]);
+}, [movies]);
 
   return (
     <View className="flex-1 bg-primary">
