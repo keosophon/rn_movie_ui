@@ -51,13 +51,23 @@ const MovieDetails = () => {
         </View>
         <MovieInfo label="Production Companies" value={movie?.production_companies?.map((company) => company.name).join(', ')} />
       </ScrollView>
-      <TouchableOpacity
-        className="z-50 absolute bottom-5 left-0 right-0 mx-5 bg-blue-500 rounded-lg py-3.5 flex-row items-center justify-center p-3"
-        onPress={() => router.back()} 
-      >
-        <Image source={icons.arrow} className="size-4  mr-1 mt-1 rotate-180" />
-        <Text className="text-white text-sm">Back</Text>
-      </TouchableOpacity>
+     <View className="flex-row w-[90%] absolute bottom-5 justify-between mx-5 z-50">
+  <TouchableOpacity
+    className="flex-1 bg-blue-500 active:bg-blue-600 rounded-lg py-3.5 flex-row items-center justify-center p-3 mr-2"
+    onPress={() => router.back()}
+  >
+    <Image source={icons.arrow} className="size-4 mr-1 mt-1 rotate-180" />
+    <Text className="text-white text-sm">Back</Text>
+  </TouchableOpacity>
+  <TouchableOpacity
+    className="flex-1 bg-blue-800 active:bg-blue-700 rounded-lg py-3.5 flex-row items-center justify-center p-3"
+    onPress={() => {/* Save logic here */}}
+  >
+    <Image source={icons.save} className="size-4 mr-1 mt-1 rotate-180" />
+    <Text className="text-white text-sm">Save</Text>
+  </TouchableOpacity>
+</View>
+      
     </View>
   )
 }

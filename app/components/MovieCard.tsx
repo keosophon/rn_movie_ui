@@ -1,4 +1,5 @@
 import { icons } from "@/constants/icons";
+import Icon from '@react-native-vector-icons/fontawesome';
 import { Link } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
@@ -30,6 +31,8 @@ const MovieCard = ({
           <Text className="text-xs text-white font-bold uppercase">
             {Math.round(vote_average) / 2}
           </Text>
+          
+          <Icon name="heart" size={30} color="yellow" className="bg-yellow-500"/>
         </View>
         <View className="flex-row items-center justify-between">
             <Text className="text-xs text-gray-400 font-medium">{release_date?.split('-')[0]}</Text>

@@ -68,16 +68,3 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
 }
 
 
-export const fetchMovieDetails = async (id: string): Promise<MovieDetails | undefined> => {
-  try {
-    const response = await database.getDocument(
-      DATABASE_ID,
-      MOVIE_COLLECTION_ID,
-      id
-    );
-    return response as unknown as MovieDetails;
-  } catch (error) {
-    console.error("Error fetching movie details:", error);
-    return undefined; 
-  }
-}
