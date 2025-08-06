@@ -51,7 +51,7 @@ const MovieDetails = () => {
         </View>
         <MovieInfo label="Production Companies" value={movie?.production_companies?.map((company) => company.name).join(', ')} />
       </ScrollView>
-     <View className="flex-row w-[90%] absolute bottom-5 justify-between mx-5 z-50">
+     <View className="flex-row w-[90%] absolute bottom-5 justify-around mx-5 z-50">
   <TouchableOpacity
     className="flex-1 bg-blue-500 active:bg-blue-600 rounded-lg py-3.5 flex-row items-center justify-center p-3 mr-2"
     onPress={() => router.back()}
