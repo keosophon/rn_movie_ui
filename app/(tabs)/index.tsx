@@ -10,6 +10,7 @@ import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "reac
 import TrendingCard from "../components/TrendingCard";
 import "../global.css";
 
+
 export default function Index() {
   const router = useRouter();
 

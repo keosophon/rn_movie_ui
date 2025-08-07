@@ -1,4 +1,4 @@
-import { Client, Databases, ID, Query } from "react-native-appwrite";
+import { Account, Client, Databases, ID, Query } from "react-native-appwrite";
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_DATABASE_ID!;
 const MOVIE_COLLECTION_ID = process.env.EXPO_PUBLIC_MOVIE_COLLECTION_ID!;
@@ -7,6 +7,7 @@ const projectId = process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!;
 
 const client = new Client().setEndpoint(endpoint).setProject(projectId);
 
+const account = new Account(client);
 const database = new Databases(client);
 
 // track the search made by a user
@@ -68,3 +69,41 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
 }
 
 
+/**
+ * Log in a user with email and password using Appwrite authentication.
+ * @param email User's email
+ * @param password User's password
+ * @returns The session object if successful
+ */
+export const login = async (email: string, password: string) => {
+  
+  try {
+    
+    if (!await account.get()) {
+      return await account.createEmailPasswordSession(email, password);
+    }
+  } catch (error) {
+    console.error("Error logging in to Appwrite:", error);
+    throw error;
+  }
+};
+
+export const getSession = async () => {
+  try {
+    const session = await account.get();
+    return session || null;
+  } catch (error) {
+    console.error("Error checking session:", error);
+    return null;
+  }
+}
+
+export const logout = async () => {
+  try {
+    await account.deleteSession('current');
+    return true;
+  } catch (error) {
+    console.error("Error logging out:", error);
+    throw error;
+  }
+}
