@@ -77,9 +77,8 @@ export const getTrendingMovies = async (): Promise<TrendingMovie[] | undefined> 
  */
 export const login = async (email: string, password: string) => {
   
-  try {
-    
-    if (!await account.get()) {
+  try {    
+    if (!await getSession()) {
       return await account.createEmailPasswordSession(email, password);
     }
   } catch (error) {
@@ -91,6 +90,7 @@ export const login = async (email: string, password: string) => {
 export const getSession = async () => {
   try {
     const session = await account.get();
+    console.log("Current session:", session);
     return session || null;
   } catch (error) {
     console.error("Error checking session:", error);
