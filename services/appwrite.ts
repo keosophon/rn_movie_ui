@@ -107,3 +107,11 @@ export const logout = async () => {
     throw error;
   }
 }
+
+export const updateEmail = async (email: string, password: string) => {
+  return account.updateEmail(email, password);
+};
+
+export const updatePassword = async (password: string, oldPassword: string) => {
+  return account.updatePassword(password, oldPassword);
+};

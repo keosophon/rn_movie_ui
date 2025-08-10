@@ -1,31 +1,41 @@
-import { login } from '@/services/appwrite';
-import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { icons } from '@/constants/icons'
+import { getSession, login } from '@/services/appwrite'
+import { useRouter } from 'expo-router'
+import React, { useState } from 'react'
+import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 export default function Index () {
-  const router = useRouter();
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
   const handleLogin = async () => {
     try {
-      const session = await login(email, password)
+      // Attempt to get the current session first.
+      const session = await getSession()
+
+      // If a session is found, redirect immediately.
       if (session) {
         router.push('/(tabs)')
+        return // Exit the function to prevent further execution.
       }
-    } catch (error) {
-      setError('Login failed. Please check your credentials and try again.')
+
+      // If no session exists, attempt to log in with the provided credentials.
+      await login(email, password)
+      router.push('/(tabs)')
+    } catch (error: any) {
+      // If any error occurs during getSession or login,
+      // catch it here and display the error message.
+      console.error('Login error:', error)
+      setError(error.message || 'An error occurred')
     }
   }
 
   return (
     <View className='flex-1 justify-center items-center bg-primary px-6'>
       <View className='mb-10 items-center'>
-        <Text className='text-3xl font-bold text-blue-800 mb-5'>
-          My Movie App
-        </Text>
+        <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
         <Text className='text-lg text-gray-200'>Welcome</Text>
       </View>
       <View className='w-full max-w-md bg-white/10 rounded-xl p-6 shadow-lg'>
@@ -46,24 +56,17 @@ export default function Index () {
           secureTextEntry
         />
 
-        {error && <Text className='text-red-500 mb-4 text-center'>{error}</Text>}
+        {error && (
+          <View>
+            <Text className='text-red-500 mb-4 text-center'>{error}</Text>
+          </View>
+        )}
         <TouchableOpacity
           className='bg-blue-600 rounded-lg px-6 py-3 mb-4 w-full active:bg-blue-700'
           onPress={handleLogin}
         >
           <Text className='text-white text-lg font-semibold text-center'>
             Login
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className='bg-gray-600 rounded-lg px-6 py-3 w-full active:bg-gray-700'
-          onPress={() => {
-            /* Add register logic here */
-          }}
-        >
-          <Text className='text-white text-lg font-semibold text-center'>
-            Register
           </Text>
         </TouchableOpacity>
       </View>
