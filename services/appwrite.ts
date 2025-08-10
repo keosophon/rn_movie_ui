@@ -2,6 +2,7 @@ import { Account, Client, Databases, ID, Query } from "react-native-appwrite";
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_DATABASE_ID!;
 const MOVIE_COLLECTION_ID = process.env.EXPO_PUBLIC_MOVIE_COLLECTION_ID!;
+const FAVORITE_COLLECTION_ID = process.env.EXPO_PUBLIC_FAVORITE_COLLECTION_ID!;
 const endpoint = process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!;
 const projectId = process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!;
 
@@ -123,4 +124,80 @@ export const updateName = async (name:string) => {
     } catch (error) {
         throw error;
     }
+};
+
+export const getUserId = async () => {  
+  try {
+    const session = await getSession();
+    return session?.$id || null;
+  } catch (error) {
+    console.error("Error getting user ID:", error);
+    return null;
+  }
+}
+
+/**
+ * Checks if a movie is already favorited by the user.
+ * @param movieId The ID of the movie to check.
+ * @param userId The ID of the authenticated user.
+ * @returns The document ID if the movie is a favorite, otherwise null.
+ */
+export const checkIfFavorite = async (movieId: number, userId: string) => {
+  try {
+    const response = await database.listDocuments(
+      DATABASE_ID,
+      FAVORITE_COLLECTION_ID,
+      [
+        Query.equal("movieId", movieId),
+        Query.equal("userId", userId)
+      ]
+    );
+    if (response.documents.length > 0) {
+      return response.documents[0].$id;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error checking favorite status:", error);
+    return null;
+  }
+};
+
+/**
+ * Saves a favorite movie to the Appwrite database.
+ * @param movieId The ID of the movie to save.
+ * @param userId The ID of the authenticated user.
+ */
+export const saveFavoriteMovie = async (movieId: number, userId: string) => {
+  try {
+    const response = await database.createDocument(
+      DATABASE_ID,
+      FAVORITE_COLLECTION_ID, // Use the dedicated favorites collection
+      ID.unique(),
+      {
+        movieId: movieId,
+        userId: userId
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Error saving favorite movie:", error);
+    throw error;
+  }
+};
+
+/**
+ * Deletes a favorite movie from the Appwrite database.
+ * @param favoriteDocId The document ID of the favorite entry to delete.
+ */
+export const deleteFavoriteMovie = async (favoriteDocId: string) => {
+  try {
+    await database.deleteDocument(
+      DATABASE_ID,
+      FAVORITE_COLLECTION_ID, // Use the dedicated favorites collection
+      favoriteDocId
+    );
+  } catch (error) {
+    console.error("Error deleting favorite movie:", error);
+    throw error;
+  }
 };
