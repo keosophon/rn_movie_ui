@@ -74,10 +74,11 @@ const Profile = () => {
   };
 
   return (
-    <View className="flex-1 justify-center items-center bg-primary px-6">
-      <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
-      <Text className="text-5xl font-bold text-white mb-6">Profile</Text>
+    <>      
       {session ? (
+        <View className="flex-1 justify-center items-center bg-primary px-6"> 
+        <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
+      <Text className="text-5xl font-bold text-white mb-6">Profile</Text>
         <View className="w-full max-w-md bg-white/10 rounded-xl p-6 shadow-lg items-center ">
           {/* Profile Information View */}
           <View className="mb-6 w-full items-start mb-6">
@@ -197,6 +198,7 @@ const Profile = () => {
             <Text className="text-white text-lg font-semibold text-center">Logout</Text>
           </TouchableOpacity>
         </View>
+         </View>
       ) : (
         <TouchableOpacity
           className="bg-blue-600 rounded-lg px-6 py-3 w-full active:bg-blue-700 mt-4"
@@ -205,7 +207,8 @@ const Profile = () => {
           <Text className="text-white text-lg font-semibold text-center">Login</Text>
         </TouchableOpacity>
       )}
-    </View>
+   
+    </>
   );
 };
 

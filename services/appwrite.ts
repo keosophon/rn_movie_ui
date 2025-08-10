@@ -115,3 +115,12 @@ export const updateEmail = async (email: string, password: string) => {
 export const updatePassword = async (password: string, oldPassword: string) => {
   return account.updatePassword(password, oldPassword);
 };
+
+export const updateName = async (name:string) => {
+    try {
+        const response = await account.updateName(name);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
