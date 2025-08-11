@@ -34,29 +34,41 @@ const MovieCard = ({
     checkStatus()
   }, [id])
 
-  const handlefavoritePress = async () => {
-    const userId = await getUserId()
-    if (!userId) {
-      console.error('User ID not found. Cannot save/delete favorite movie.')
-      return
-    }
-
-    try {
-      if (isFavorite && favoriteDocId) {
-        // Delete the favorite movie
-        await deleteFavoriteMovie(favoriteDocId)
-        setIsFavorite(false)
-        setFavoriteDocId(null)
-      } else {
-        // Save the new favorite movie
-        const response = await saveFavoriteMovie(id, userId)
-        setIsFavorite(true)
-        setFavoriteDocId(response.$id)
-      }
-    } catch (error) {
-      console.error('Failed to update favorite status:', error)
-    }
+  const handlefavoritePress = async (e) => {
+  // Prevent the Link from navigating when the heart icon is pressed
+  e.preventDefault();
+  
+  const userId = await getUserId();
+  if (!userId) {
+    console.error('User ID not found. Cannot save/delete favorite movie.');
+    return;
   }
+
+  try {
+    if (isFavorite && favoriteDocId) {
+      // Delete the favorite movie
+      await deleteFavoriteMovie(favoriteDocId);
+      setIsFavorite(false);
+      setFavoriteDocId(null);
+    } else {
+      // Create a movie data object with all the required properties
+      const movieData = {
+        movieId: id,
+        title,
+        poster_path,
+        release_date,
+        vote_average: Math.round(vote_average),
+      };
+
+      // Save the new favorite movie with all its data
+      const response = await saveFavoriteMovie(movieData, userId);
+      setIsFavorite(true);
+      setFavoriteDocId(response.$id);
+    }
+  } catch (error) {
+    console.error('Failed to update favorite status:', error);
+  }
+};
 
   return (
     <Link href={`/movies/${id}`} asChild>

@@ -1,3 +1,4 @@
+
 import { Account, Client, Databases, ID, Query } from "react-native-appwrite";
 
 const DATABASE_ID = process.env.EXPO_PUBLIC_DATABASE_ID!;
@@ -10,6 +11,8 @@ const client = new Client().setEndpoint(endpoint).setProject(projectId);
 
 const account = new Account(client);
 const database = new Databases(client);
+
+
 
 // track the search made by a user
 export const updateSearchCount = async (query: string, movie: Movie) => {
@@ -167,15 +170,15 @@ export const checkIfFavorite = async (movieId: number, userId: string) => {
  * @param movieId The ID of the movie to save.
  * @param userId The ID of the authenticated user.
  */
-export const saveFavoriteMovie = async (movieId: number, userId: string) => {
+export const saveFavoriteMovie = async (movieData: {movieId:number, title: string, poster_path: string, release_date: string, vote_average: number}, userId: string) => {
   try {
     const response = await database.createDocument(
       DATABASE_ID,
-      FAVORITE_COLLECTION_ID, // Use the dedicated favorites collection
+      FAVORITE_COLLECTION_ID,
       ID.unique(),
       {
-        movieId: movieId,
-        userId: userId
+        ...movieData, // Spread the movie data object to save all its properties
+        userId: userId,
       }
     );
     return response;
@@ -200,4 +203,31 @@ export const deleteFavoriteMovie = async (favoriteDocId: string) => {
     console.error("Error deleting favorite movie:", error);
     throw error;
   }
+};
+
+
+export const getFavoriteMoviesByUserId = async () => {
+  const userId = await getUserId();
+    // Basic validation to ensure a user ID is provided.
+    if (!userId) {
+        console.error('Error: userId is required to fetch favorite movies.');
+        return null;
+    }
+
+    try {
+        // Use the listDocuments method with a query to filter by userId.
+        const response = await database.listDocuments(
+            DATABASE_ID,
+            FAVORITE_COLLECTION_ID,
+            // Use the 'equal' query to find all documents where the 'userId' attribute matches the provided ID.
+            [Query.equal('userId', userId)]
+        );
+
+        console.log('Successfully fetched favorite movies:', response.documents);
+        return response.documents;
+    } catch (error) {
+        // Log the error and return null to indicate failure.
+        console.error('Failed to get favorite movies for user:', error);
+        return null;
+    }
 };
