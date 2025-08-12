@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 import "../global.css";
 
-const saved = () => {
+const Saved = () => {
   const router = useRouter();
 
 
@@ -31,7 +31,7 @@ const saved = () => {
   );
 
   return (
-    <View className="flex-1 bg-primary">
+    <View className="flex-1 bg-primary mb-5">
       <Image source={images.bg} className="absolute z-0 w-full" />
       {moviesLoading ? (
         <ActivityIndicator size="large" className="color-white mt-10" />
@@ -42,10 +42,10 @@ const saved = () => {
           data={movies}
           renderItem={({ item }) => (
             <View className="mb-5 pr-2 flex-1">
-              <SavedCard {...item} />
+              <SavedCard {... item}/>
             </View>
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.movieId}
           showsVerticalScrollIndicator={false}
           numColumns={2}
           columnWrapperStyle={{
@@ -57,7 +57,8 @@ const saved = () => {
         />
       )}
     </View>
+    
   );
 }
 
-export default saved
+export default Saved
