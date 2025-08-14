@@ -37,7 +37,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/rn-movie-ui.git
+   git clone https://github.com/keosophon/rn-movie-ui.git
    ```
 2. **Navigate to the project directory:**
    ```bash
@@ -55,12 +55,12 @@ Follow these instructions to get a copy of the project up and running on your lo
    - Create an Appwrite project.
    - Create a `.env` file in the root of the project and add your Appwrite configuration:
      ```
-     EXPO_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
-     EXPO_PUBLIC_APPWRITE_PROJECT_ID=<YOUR_PROJECT_ID>
-     EXPO_PUBLIC_APPWRITE_DATABASE_ID=<YOUR_DATABASE_ID>
-     EXPO_PUBLIC_APPWRITE_STORAGE_ID=<YOUR_STORAGE_ID>
-     EXPO_PUBLIC_APPWRITE_USER_COLLECTION_ID=<YOUR_USER_COLLECTION_ID>
-     EXPO_PUBLIC_APPWRITE_VIDEO_COLLECTION_ID=<YOUR_VIDEO_COLLECTION_ID>
+   EXPO_PUBLIC_MOVIE_API_KEY=...
+EXPO_PUBLIC_APPWRITE_PROJECT_ID = ...
+EXPO_PUBLIC_APPWRITE_ENDPOINT=https://syd.cloud.appwrite.io/v1
+EXPO_PUBLIC_DATABASE_ID = ...
+EXPO_PUBLIC_MOVIE_COLLECTION_ID = ...
+EXPO_PUBLIC_FAVORITE_COLLECTION_ID = ...
      ```
 
 ### Running the App
@@ -76,15 +76,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 - **Run on Android:**
   ```bash
   npm run android
-  ```
-- **Run on iOS:**
-  ```bash
-  npm run ios
-  ```
-- **Run on Web:**
-  ```bash
-  npm run web
-  ```
+
 
 ## Project Structure
 
