@@ -12,7 +12,7 @@ A React Native application for browsing movies, built with Expo and Appwrite (Ba
 
 ## Screenshots
 
--- ** Six screenshots: https://github.com/keosophon/rn_movie_ui/wiki
+-- ** 7 screenshots: https://github.com/keosophon/rn_movie_ui/wiki
 
 ## Technologies Used
 
