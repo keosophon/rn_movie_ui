@@ -59,13 +59,6 @@ const MovieDetails = () => {
     <Image source={icons.arrow} className="size-4 mr-1 mt-1 rotate-180" />
     <Text className="text-white text-sm">Back</Text>
   </TouchableOpacity>
-  <TouchableOpacity
-    className="flex-1 bg-blue-800 active:bg-blue-700 rounded-lg py-3.5 flex-row items-center justify-center p-3"
-    onPress={() => {/* Save logic here */}}
-  >
-    <Image source={icons.save} className="size-4 mr-1 mt-1 rotate-180" />
-    <Text className="text-white text-sm">Save</Text>
-  </TouchableOpacity>
 </View>
       
     </View>

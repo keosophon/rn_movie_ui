@@ -4,20 +4,31 @@ import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { getFavoriteMoviesByUserId } from "@/services/appwrite";
 import useFetch from "@/services/useFetch";
+import { useIsFocused } from '@react-navigation/native';
 import { useRouter } from "expo-router";
+import { useEffect } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 import "../global.css";
 
 const Saved = () => {
   const router = useRouter();
-
+  const isFocused = useIsFocused();
+  
 
   const {
     data: movies,
     loading: moviesLoading,
     error: moviesError,
+    refetch
   } = useFetch(() => getFavoriteMoviesByUserId());
 
+  useEffect(() => {
+    // refetch data when the screen is focused
+    if (isFocused) {
+      refetch();
+    }
+  }, [isFocused]);
+  
   // The content for the header of the FlatList
   const ListHeader = () => (
  <View>
